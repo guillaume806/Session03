@@ -3,13 +3,12 @@ package com.example.exospringsecurity01.controllers;
 import com.example.exospringsecurity01.exceptions.ResourceNotFound;
 import com.example.exospringsecurity01.models.DogDTO;
 import com.example.exospringsecurity01.services.DogService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,17 +42,23 @@ public class PublicController {
     }
 
 
-    @GetMapping("/{dogId}")
-    public String getDogDetails(@PathVariable("dogId") UUID id, Model model) {
-        Optional<DogDTO> foundDog = Optional.ofNullable(dogService.getDogById(id));
 
-        if (foundDog.isPresent()) {
-            model.addAttribute("dog", foundDog.get());
-            model.addAttribute("mode", "details");
 
-            return "private/dogsform";
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(String username, String password, HttpServletRequest request) {
+        if (username != null && username.equals("admin") && password != null && password.equals("admin")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", "johnny");
+
+            return "redirect:/private";
         }
 
-        throw new ResourceNotFound();
+        return "redirect:/login";
     }
 }
