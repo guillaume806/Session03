@@ -1,12 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Dogs List</title>
+    <span th:replace="~{home :: bootstrapImports}"></span>
 </head>
 <body>
-<main>
-    <h1>Dogs List</h1>
+<header th:insert="~{home :: nav.blabla}">
+
+</header>
+<main class="container">
+    <h1 class="fw-light">Dog List</h1>
+    <hr>
+    <table th:if="${!dogs.isEmpty()}" class="rounded overflow-hidden table table-dark table-striped text-center align-middle">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Breed</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${dogs}">
+            <td th:text="${d.name}"></td>
+            <td th:text="${d.breed}"></td>
+            <td th:text="${d.age}"></td>
+            <td>
+
+                <a th:href="@{/dogs/{dogId}(dogId=${d.id})}" class="btn btn-outline-info"><i class="bi bi-eye"></i> Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${dogs.isEmpty()}">There is no dog in the database yet!</p>
+    <hr>
+    <div class="text-end">
+        <a th:href="@{/dogs/add}" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add a Dog</a>
+    </div>
 </main>
 </body>
 </html>

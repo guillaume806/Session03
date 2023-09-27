@@ -12,38 +12,13 @@ import java.util.UUID;
 @Service
 @Primary
 public class DogService {
-    private final Map<UUID, DogDTO> dogs;
 
-    public DogService() {
-        dogs = new HashMap<>();
 
-        DogDTO dogA = DogDTO.builder()
-                .id(UUID.randomUUID())
-                .age(5)
-                .name("Bernie")
-                .breed("Labrador")
-                .build();
 
-        DogDTO dogB = DogDTO.builder()
-                .id(UUID.randomUUID())
-                .age(3)
-                .name("Rex")
-                .breed("Doberman")
-                .build();
-
-        DogDTO dogC = DogDTO.builder()
-                .id(UUID.randomUUID())
-                .age(12)
-                .name("Caramel")
-                .breed("Beagle")
-                .build();
-
-        dogs.put(dogA.getId(), dogA);
-        dogs.put(dogB.getId(), dogB);
-        dogs.put(dogC.getId(), dogC);
-    }
 
     public List<DogDTO> getDogs() {
+
+        Map<Object, Object> dogs;
         return dogs.values().stream().toList();
     }
 
